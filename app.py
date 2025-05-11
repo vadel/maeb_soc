@@ -40,6 +40,21 @@ def submit_entry(name, solution):
 st.set_page_config(page_title="MAEB-SOC", layout="wide")
 st.title("🪑 Sagardotegi Optimization Challenge")
 
+# View-only leaderboard mode
+view_only = st.button("👀 View Only Leaderboard")
+
+if view_only:
+    st.subheader("🏆 Live Leaderboard")
+    leaderboard = load_leaderboard()
+    if leaderboard:
+        for i, entry in enumerate(leaderboard):
+            st.markdown(f"**#{i+1} – {entry['name']}** : {entry['score']:.2f}")
+    else:
+        st.info("No submissions yet.")
+    st.stop()  # Prevents rest of the page (form/admin) from rendering
+
+
+
 # Split page into two columns
 col1, col2 = st.columns(2)
 
