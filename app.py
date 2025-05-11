@@ -43,6 +43,7 @@ st.title("🪑 Sagardotegi Optimization Challenge")
 # View-only leaderboard mode
 view_only = st.button("👀 View Only Leaderboard")
 
+st.divider()
 if view_only:
     st.subheader("🏆 Live Leaderboard")
     leaderboard = load_leaderboard()
