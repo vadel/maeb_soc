@@ -47,22 +47,40 @@ col1, col2 = st.columns(2)
 with col1:
     st.header("📤 Submit Your Solution")
     with st.form("submission_form"):
-        name = st.text_input("Team Name")
-        solution_str = st.text_area("Your solution (e.g., [2, 0, 1, 3])")
-        submitted = st.form_submit_button("Submit")
-        if submitted:
-            try:
-                solution = ast.literal_eval(solution_str)
-                if not isinstance(solution, list):
-                    st.error("Solution must be a Python list (e.g., [1, 2, 3, 0])")
+    name = st.text_input("Team Name")
+    solution_str = st.text_area("Your solution (e.g., [2, 0, 1, 3])")
+
+    col_submit, col_check = st.columns([1, 1])
+    with col_submit:
+        submitted = st.form_submit_button("🚀 Submit")
+    with col_check:
+        check_position = st.form_submit_button("🔍 Find my position")
+
+    if submitted:
+        try:
+            solution = ast.literal_eval(solution_str)
+            if not isinstance(solution, list):
+                st.error("Solution must be a Python list (e.g., [1, 2, 3, 0])")
+            else:
+                success, result = submit_entry(name, solution)
+                if success:
+                    st.success("✅ Submission accepted and leaderboard updated!")
                 else:
-                    success, result = submit_entry(name, solution)
-                    if success:
-                        st.success("✅ Submission accepted and leaderboard updated!")
-                    else:
-                        st.warning(f"⚠️ Your score ({evaluate_solution(solution):.2f}) is not better than your previous best ({result:.2f}). Submission not saved.")
-            except Exception as e:
-                st.error(f"❌ Error parsing your solution: {e}")
+                    st.warning(f"⚠️ Your score ({evaluate_solution(solution):.2f}) is not better than your previous best ({result:.2f}). Submission not saved.")
+        except Exception as e:
+            st.error(f"❌ Error parsing your solution: {e}")
+
+    elif check_position:
+        if not name:
+            st.warning("⚠️ Please enter your Team Name first.")
+        else:
+            leaderboard = load_leaderboard()
+            entry = next((entry for entry in leaderboard if entry["name"] == name), None)
+            if entry:
+                position = sorted(leaderboard, key=lambda x: x["score"], reverse=True).index(entry) + 1
+                st.info(f"📊 You're currently ranked **#{position}** with a score of **{entry['score']:.2f}**.")
+            else:
+                st.warning("❌ Team not found in the leaderboard yet.")
 
 
 # Right: Leaderboard
