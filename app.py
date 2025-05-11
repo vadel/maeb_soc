@@ -34,13 +34,13 @@ def submit_entry(name, solution):
     return True, score
 
 # Streamlit page config
-st.set_page_config(page_title="Conference Seating Challenge", layout="wide")
+st.set_page_config(page_title="MAEB-SOC!", layout="wide")
 
 # Title and view-only toggle in top-right
 header_col1, header_spacer, header_col2 = st.columns([8, 6, 1])
 
 with header_col1:
-    st.title("🪑 Conference Seating Challenge")
+    st.title("🪑 Sagardotegi Optimization Challenge")
 
 with header_col2:
     if "view_only_mode" not in st.session_state:
