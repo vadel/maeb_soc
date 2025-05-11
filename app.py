@@ -37,7 +37,7 @@ def submit_entry(name, solution):
 st.set_page_config(page_title="Conference Seating Challenge", layout="wide")
 
 # Title and view-only toggle in top-right
-header_col1, header_spacer, header_col2 = st.columns([6, 6, 1])
+header_col1, header_spacer, header_col2 = st.columns([8, 6, 1])
 
 with header_col1:
     st.title("🪑 Conference Seating Challenge")
