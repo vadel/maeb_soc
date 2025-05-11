@@ -37,7 +37,7 @@ def submit_entry(name, solution):
 st.set_page_config(page_title="MAEB-SOC!", layout="wide")
 
 # Title and view-only toggle in top-right
-header_col1, header_spacer, header_col2 = st.columns([15, 1, 1])
+header_col1, header_spacer, header_col2 = st.columns([10, 6, 1])
 
 with header_col1:
     st.title("🪑 Sagardotegi Optimization Challenge")
