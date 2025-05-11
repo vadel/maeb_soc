@@ -38,7 +38,7 @@ def submit_entry(name, solution):
 
 # Page title
 st.set_page_config(page_title="MAEB-SOC", layout="wide")
-st.title("🪑 Sagardotegi Optimization Challenge)
+st.title("🪑 Sagardotegi Optimization Challenge")
 
 # Split page into two columns
 col1, col2 = st.columns(2)
