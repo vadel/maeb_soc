@@ -37,7 +37,7 @@ def submit_entry(name, solution):
 st.set_page_config(page_title="MAEB-SOC!", layout="wide")
 
 # Title and view-only toggle in top-right
-header_col1, header_spacer, header_col2 = st.columns([10, 6, 1])
+header_col1, header_spacer, header_col2 = st.columns([12, 6, 1])
 
 with header_col1:
     st.title("🪑 Sagardotegi Optimization Challenge")
@@ -77,18 +77,21 @@ with col1:
             check_position = st.form_submit_button("🔍 Find My Position")
 
         if submitted:
-            try:
-                solution = ast.literal_eval(solution_str)
-                if not isinstance(solution, list):
-                    st.error("Solution must be a Python list (e.g., [1, 2, 3, 0])")
-                else:
-                    success, result = submit_entry(name, solution)
-                    if success:
-                        st.success("✅ Submission accepted and leaderboard updated!")
+            if not name.strip():
+                st.warning("⚠️ Please enter your Team Name before submitting.")
+            else:
+                try:
+                    solution = ast.literal_eval(solution_str)
+                    if not isinstance(solution, list):
+                        st.error("Solution must be a Python list (e.g., [1, 2, 3, 0])")
                     else:
-                        st.warning(f"⚠️ Your score ({evaluate_solution(solution):.2f}) is not better than your previous best ({result:.2f}). Submission not saved.")
-            except Exception as e:
-                st.error(f"❌ Error parsing your solution: {e}")
+                        success, result = submit_entry(name, solution)
+                        if success:
+                            st.success("✅ Submission accepted and leaderboard updated!")
+                        else:
+                            st.warning(f"⚠️ Your score ({evaluate_solution(solution):.2f}) is not better than your previous best ({result:.2f}). Submission not saved.")
+                except Exception as e:
+                    st.error(f"❌ Error parsing your solution: {e}")
 
         elif check_position:
             if not name.strip():
@@ -101,6 +104,7 @@ with col1:
                     st.info(f"📊 You're currently ranked **#{position}** with a score of **{entry['score']:.2f}**.")
                 else:
                     st.warning("❌ Team not found in the leaderboard yet.")
+
 
 # === Right side: Full leaderboard ===
 with col2:
