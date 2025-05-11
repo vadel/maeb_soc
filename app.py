@@ -37,8 +37,8 @@ def submit_entry(name, solution):
 
 
 # Page title
-st.set_page_config(page_title="Conference Seating Challenge", layout="wide")
-st.title("🪑 Conference Seating Challenge")
+st.set_page_config(page_title="MAEB-SOC", layout="wide")
+st.title("🪑 Sagardotegi Optimization Challenge)
 
 # Split page into two columns
 col1, col2 = st.columns(2)
@@ -50,7 +50,7 @@ with col1:
         name = st.text_input("Team Name")
         solution_str = st.text_area("Your solution (e.g., [2, 0, 1, 3])")
 
-        col_submit, col_check = st.columns([1, 1])
+        col_submit, col_check = st.columns([1, 1], gap="small")
         with col_submit:
             submitted = st.form_submit_button("🚀 Submit")
         with col_check:
@@ -92,13 +92,4 @@ with col2:
             st.markdown(f"**#{i+1} – {entry['name']}** : {entry['score']:.2f}")
     else:
         st.info("No submissions yet.")
-
-# Admin reset (optional)
-st.divider()
-admin_input = st.text_input("🔐 Admin passcode (optional)", type="password")
-if "admin" in st.secrets and admin_input == st.secrets["admin"]["passcode"]:
-    with st.expander("⚙️ Admin Panel"):
-        if st.button("🔄 Reset leaderboard"):
-            save_leaderboard([])
-            st.success("Leaderboard has been reset.")
 
