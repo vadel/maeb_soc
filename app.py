@@ -43,7 +43,7 @@ with left_title:
 with right_toggle:
     if "view_only_mode" not in st.session_state:
         st.session_state.view_only_mode = False
-    if st.button("👁️ Toggle View Only"):
+    if st.button("👁️"):
         st.session_state.view_only_mode = not st.session_state.view_only_mode
 
 # View-only leaderboard mode
