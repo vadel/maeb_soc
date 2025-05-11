@@ -37,14 +37,17 @@ def submit_entry(name, solution):
 st.set_page_config(page_title="Conference Seating Challenge", layout="wide")
 
 # Title and view-only toggle in top-right
-left_title, right_toggle = st.columns([4, 1])
-with left_title:
+header_col1, header_spacer, header_col2 = st.columns([6, 6, 1])
+
+with header_col1:
     st.title("🪑 Conference Seating Challenge")
-with right_toggle:
+
+with header_col2:
     if "view_only_mode" not in st.session_state:
         st.session_state.view_only_mode = False
-    if st.button("👁️"):
+    if st.button("👁️ Leaderboard Only"):
         st.session_state.view_only_mode = not st.session_state.view_only_mode
+
 
 # View-only leaderboard mode
 if st.session_state.view_only_mode:
