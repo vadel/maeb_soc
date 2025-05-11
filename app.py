@@ -22,10 +22,19 @@ def save_leaderboard(lb):
 def submit_entry(name, solution):
     score = evaluate_solution(solution)
     leaderboard = load_leaderboard()
+
+    # Check if team already has a better or equal score
+    existing_entry = next((entry for entry in leaderboard if entry["name"] == name), None)
+    if existing_entry and score <= existing_entry["score"]:
+        return False, existing_entry["score"]  # Do not update
+
+    # Otherwise, replace or add the new better entry
     leaderboard = [entry for entry in leaderboard if entry["name"] != name]
     leaderboard.append({"name": name, "solution": solution, "score": score})
     leaderboard = sorted(leaderboard, key=lambda x: x["score"], reverse=True)
     save_leaderboard(leaderboard)
+    return True, score
+
 
 # Page title
 st.set_page_config(page_title="Conference Seating Challenge", layout="wide")
@@ -47,10 +56,14 @@ with col1:
                 if not isinstance(solution, list):
                     st.error("Solution must be a Python list (e.g., [1, 2, 3, 0])")
                 else:
-                    submit_entry(name, solution)
-                    st.success("✅ Submission successful!")
+                    success, result = submit_entry(name, solution)
+                    if success:
+                        st.success("✅ Submission accepted and leaderboard updated!")
+                    else:
+                        st.warning(f"⚠️ Your score ({evaluate_solution(solution):.2f}) is not better than your previous best ({result:.2f}). Submission not saved.")
             except Exception as e:
                 st.error(f"❌ Error parsing your solution: {e}")
+
 
 # Right: Leaderboard
 with col2:
