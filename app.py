@@ -35,11 +35,18 @@ def submit_entry(name, solution):
     save_leaderboard(leaderboard)
     return True, score
 
+
+# Load the docs
+docs = open('docs/getting_started.md', 'r')
+docs_getting_started = docs.read()
+docs.close()
+
+
 # Streamlit page config
 st.set_page_config(page_title="MAEB-SOC!", layout="wide")
 
 # Title and view-only toggle in top-right
-header_col1, header_spacer, header_col2 = st.columns([12, 6, 1])
+header_col1, header_spacer, header_col2 = st.columns([15, 5, 1])
 
 with header_col1:
     st.title("🪑 Sagardotegi Optimization Challenge")
@@ -49,7 +56,6 @@ with header_col2:
         st.session_state.view_only_mode = False
     if st.button("👁️"):
         st.session_state.view_only_mode = not st.session_state.view_only_mode
-
 
 # View-only leaderboard mode
 if st.session_state.view_only_mode:
@@ -118,6 +124,12 @@ with col2:
     else:
         st.info("No submissions yet.")
 
+with st.expander("Getting started 🚀"):
+    st.markdown(docs_getting_started)
+
+expander_sop = st.expander("About the SOP")
+expander_sop.write("Hello!")
+
 if st.button("Visualize best solution ✨"):
     leaderboard = load_leaderboard()
     if leaderboard:
@@ -125,6 +137,7 @@ if st.button("Visualize best solution ✨"):
         best_solution = np.array(best_solution).astype(int)
 
         problem = SagardotegiProblem()
+        st.text("Nodes (authors) are placed based on keyword similarity, while colors indicate the 19 tables.")
         st.write(problem.visualize_solution(best_solution, plot=False))
 
         st.header("Layout 🪑")
