@@ -25,8 +25,8 @@ class SagardotegiProblem:
             self.author_names = [line.strip() for line in f if line.strip()]
 
     def check_solution(self, p: NDArray):
-        """Returns `True` if the input numpy array is a permutation and `False` otherwise."""
-        return (np.unique(p) == np.arange(p.size)).all()
+        """Returns `True` if the input numpy array is a valid solution and `False` otherwise."""
+        return  p.size == self.size and np.unique(p).size == self.size and (np.unique(p) == np.arange(p.size)).all()
 
     def evaluate(self, p: NDArray):
         """Computes the objective function value (fitness) of the input solution."""
