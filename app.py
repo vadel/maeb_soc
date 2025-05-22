@@ -3,6 +3,8 @@ import json
 import os
 import ast
 from objective import evaluate_solution
+from sagardotegi_problem import SagardotegiProblem
+import numpy as np
 
 LEADERBOARD_FILE = "leaderboard.json"
 
@@ -116,3 +118,14 @@ with col2:
     else:
         st.info("No submissions yet.")
 
+if st.button("Visualize best solution ✨"):
+    leaderboard = load_leaderboard()
+    if leaderboard:
+        best_solution = leaderboard[0]['solution']
+        best_solution = np.array(best_solution).astype(int)
+
+        problem = SagardotegiProblem()
+        st.write(problem.visualize_solution(best_solution, plot=False))
+
+        st.header("Layout 🪑")
+        st.markdown(problem.solution_to_layout(best_solution, print_stdout=False))

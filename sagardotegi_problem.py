@@ -39,15 +39,21 @@ class SagardotegiProblem:
         tables_sim = np.apply_along_axis(table_sim, 1, splitted)
         return np.sum(tables_sim)
 
-    def solution_to_layout(self, solution: NDArray):
+    def solution_to_layout(self, solution: NDArray, print_stdout: bool = True):
         """Prints the table layout specified by the input solution."""
+        s = ""
         names = np.array(self.author_names)
+        j = 1
         for i, name in enumerate(names[solution]):
             if i % self.table_size == 0:
-                print(f"\n# Table {i+1}")
-            print("-", name)
+                s += f"\n### Table {j}\n"
+                j += 1
+            s += f"- {name}\n"
+        if print_stdout:
+            print(s)
+        return s
 
-    def visualize_solution(self, solution: NDArray):
+    def visualize_solution(self, solution: NDArray, plot: bool = True):
         """Visualizes the solution using networkx and matplotlib."""
         import networkx as nx
         import matplotlib.pyplot as plt
@@ -67,7 +73,7 @@ class SagardotegiProblem:
         # k is the optimal distance between nodes.
         pos = nx.spring_layout(G, k=1/np.sqrt(self.size), iterations=1000, weight="weight")
 
-        plt.figure(figsize=(12, 10))
+        fig = plt.figure(figsize=(12, 10))
 
         # only draw the nodes
         tables = np.arange(self.size // self.table_size).repeat(self.table_size)
@@ -85,7 +91,11 @@ class SagardotegiProblem:
         plt.title(f"Sagardotegi Layout (fitness: {round(fs, 2)})")
         plt.axis("off")
         plt.tight_layout()
-        plt.show()
+
+        if plot:
+            plt.show()
+
+        return fig
 
 
 if __name__ == "__main__":
