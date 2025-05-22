@@ -41,6 +41,9 @@ docs = open('docs/getting_started.md', 'r')
 docs_getting_started = docs.read()
 docs.close()
 
+docs = open('docs/about_sop.md', 'r')
+docs_about_sop = docs.read()
+docs.close()
 
 # Streamlit page config
 st.set_page_config(page_title="MAEB-SOC!", layout="wide")
@@ -127,8 +130,8 @@ with col2:
 with st.expander("Getting started 🚀"):
     st.markdown(docs_getting_started)
 
-expander_sop = st.expander("About the SOP")
-expander_sop.write("Hello!")
+with st.expander("About the SOP 🧑‍🏫"):
+    st.markdown(docs_about_sop)
 
 if st.button("Visualize best solution ✨"):
     leaderboard = load_leaderboard()
