@@ -41,9 +41,18 @@ docs = open('docs/getting_started.md', 'r')
 docs_getting_started = docs.read()
 docs.close()
 
+docs = open('docs/solution_format.md', 'r')
+docs_solution_format = docs.read()
+docs.close()
+
 docs = open('docs/about_sop.md', 'r')
 docs_about_sop = docs.read()
 docs.close()
+
+docs = open('docs/similarity.md', 'r')
+docs_similarity = docs.read()
+docs.close()
+
 
 # Streamlit page config
 st.set_page_config(page_title="MAEB-SOC!", layout="wide")
@@ -51,25 +60,49 @@ st.set_page_config(page_title="MAEB-SOC!", layout="wide")
 # Title and view-only toggle in top-right
 header_col1, header_spacer, header_col2 = st.columns([15, 5, 1])
 
+def toggle_view():
+    st.session_state.view_only_mode = not st.session_state.view_only_mode
+    button_label = "📄 Documentation" if not st.session_state.get("view_only_mode", True) else "🏠 Back to Main Page"
+
+
 with header_col1:
     st.title("🪑 Sagardotegi Optimization Challenge")
+    button_label = "📄 Documentation" if not st.session_state.get("view_only_mode", False) else "🏠 Back to Main Page"
+    # if st.button(button_label):
+    #     st.session_state.view_only_mode = not st.session_state.view_only_mode
+    #     button_label = "📄 Documentation" if not st.session_state.get("view_only_mode", True) else "🏠 Back to Main Page"
+    st.button(button_label, on_click=toggle_view)
 
 with header_col2:
     if "view_only_mode" not in st.session_state:
         st.session_state.view_only_mode = False
-    if st.button("👁️"):
-        st.session_state.view_only_mode = not st.session_state.view_only_mode
+    # if st.button("📄\nDocs"):
+    #     st.session_state.view_only_mode = not st.session_state.view_only_mode
 
 # View-only leaderboard mode
 if st.session_state.view_only_mode:
-    st.subheader("🏆 Live Leaderboard")
-    leaderboard = load_leaderboard()
-    if leaderboard:
-        for i, entry in enumerate(leaderboard):
-            st.markdown(f"**#{i+1} – {entry['name']}** : {entry['score']:.2f}")
-    else:
-        st.info("No submissions yet.")
+    # st.subheader("🏆 Live Leaderboard")
+    # leaderboard = load_leaderboard()
+    # if leaderboard:
+    #     for i, entry in enumerate(leaderboard):
+    #         st.markdown(f"**#{i+1} – {entry['name']}** : {entry['score']:.2f}")
+    # else:
+    #     st.info("No submissions yet.")
+
+    with st.expander("About the SOP 🧑‍🏫"):
+        st.markdown(docs_about_sop)
+
+    with st.expander("Submission format 📤"):
+        st.markdown(docs_solution_format)
+
+    with st.expander("Suggested setup 🚀"):
+        st.markdown(docs_getting_started)
+
+    with st.expander("How do we measure affinity? 🔍"):
+        st.markdown(docs_similarity)
+
     st.stop()
+
 
 # 2-column layout: left = form, right = leaderboard
 col1, col2 = st.columns(2)
@@ -116,6 +149,19 @@ with col1:
                 else:
                     st.warning("❌ Team not found in the leaderboard yet.")
 
+    if st.button("Visualize best solution ✨"):
+        leaderboard = load_leaderboard()
+        if leaderboard:
+            best_solution = leaderboard[0]['solution']
+            best_solution = np.array(best_solution).astype(int)
+
+            problem = SagardotegiProblem()
+            st.text("Nodes (authors) are placed based on keyword similarity, while colors indicate the 19 tables.")
+            st.write(problem.visualize_solution(best_solution, plot=False))
+
+            st.header("Layout 🪑")
+            st.markdown(problem.solution_to_layout(best_solution, print_stdout=False))
+
 
 # === Right side: Full leaderboard ===
 with col2:
@@ -127,21 +173,3 @@ with col2:
     else:
         st.info("No submissions yet.")
 
-with st.expander("Getting started 🚀"):
-    st.markdown(docs_getting_started)
-
-with st.expander("About the SOP 🧑‍🏫"):
-    st.markdown(docs_about_sop)
-
-if st.button("Visualize best solution ✨"):
-    leaderboard = load_leaderboard()
-    if leaderboard:
-        best_solution = leaderboard[0]['solution']
-        best_solution = np.array(best_solution).astype(int)
-
-        problem = SagardotegiProblem()
-        st.text("Nodes (authors) are placed based on keyword similarity, while colors indicate the 19 tables.")
-        st.write(problem.visualize_solution(best_solution, plot=False))
-
-        st.header("Layout 🪑")
-        st.markdown(problem.solution_to_layout(best_solution, print_stdout=False))

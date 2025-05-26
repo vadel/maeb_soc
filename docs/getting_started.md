@@ -1,4 +1,5 @@
 Luckily, getting started with the Sagardotegi Optimization Challenge is not a challenge at all!
+
 You only need a working Python installation and a few files.
 
 :orange-badge[⚠️ NOTE] Instructions assume a Linux operating system (any distro should be ok). Instructions might also work in MacOS and any other UNIX. If you are a Windows user, please consider installing Linux.
@@ -87,6 +88,7 @@ print("The fitness of the identity permutation is:", fitness)
 
 Run the script using `python main.py`, and check if the printed fitness is 285.38364, if not, please notify the organizers.
 
+### Extra: Useful utilities
 Finally, `SagardotegiProblem` comes with a few utility methods that you might find useful (or fun 🤠).
 
 The first one is, `check_solution`. Given an input numpy array, returns `True` if the array is a valid solution to the problem, and `False` otherwise.
