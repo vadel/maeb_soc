@@ -8,7 +8,7 @@ import numpy as np
 
 LEADERBOARD_FILE = "leaderboard.json"
 
-query_params = st.experimental_get_query_params()
+query_params = st.query_params()
 show_admin = query_params.get("admin", ["false"])[0] == "true"
 
 # Load leaderboard
