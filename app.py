@@ -149,18 +149,26 @@ with col1:
                 else:
                     st.warning("❌ Team not found in the leaderboard yet.")
 
-    # if st.button("Visualize best solution ✨"):
-    #     leaderboard = load_leaderboard()
-    #     if leaderboard:
-    #         best_solution = leaderboard[0]['solution']
-    #         best_solution = np.array(best_solution).astype(int)
+    #st.divider()
+    admin_input = st.text_input("🔐 Admin passcode (optional)", type="password")
+    if "admin" in st.secrets and admin_input == st.secrets["admin"]["passcode"]:
+        with st.expander("⚙️ Admin Panel"):
+            if st.button("🔄 Reset leaderboard"):
+                save_leaderboard([])
+                st.success("Leaderboard has been reset.")
 
-    #         problem = SagardotegiProblem()
-    #         st.text("Nodes (authors) are placed based on keyword similarity, while colors indicate the 19 tables.")
-    #         st.write(problem.visualize_solution(best_solution, plot=False))
+            if st.button("Visualize best solution ✨"):
+                leaderboard = load_leaderboard()
+                if leaderboard:
+                    best_solution = leaderboard[0]['solution']
+                    best_solution = np.array(best_solution).astype(int)
 
-    #         st.header("Layout 🪑")
-    #         st.markdown(problem.solution_to_layout(best_solution, print_stdout=False))
+                    problem = SagardotegiProblem()
+                    st.text("Nodes (authors) are placed based on keyword similarity, while colors indicate the 19 tables.")
+                    st.write(problem.visualize_solution(best_solution, plot=False))
+
+                    st.header("Layout 🪑")
+                    st.markdown(problem.solution_to_layout(best_solution, print_stdout=False))
 
 
 # === Right side: Full leaderboard ===
