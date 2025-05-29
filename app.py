@@ -149,18 +149,18 @@ with col1:
                 else:
                     st.warning("❌ Team not found in the leaderboard yet.")
 
-    if st.button("Visualize best solution ✨"):
-        leaderboard = load_leaderboard()
-        if leaderboard:
-            best_solution = leaderboard[0]['solution']
-            best_solution = np.array(best_solution).astype(int)
+    # if st.button("Visualize best solution ✨"):
+    #     leaderboard = load_leaderboard()
+    #     if leaderboard:
+    #         best_solution = leaderboard[0]['solution']
+    #         best_solution = np.array(best_solution).astype(int)
 
-            problem = SagardotegiProblem()
-            st.text("Nodes (authors) are placed based on keyword similarity, while colors indicate the 19 tables.")
-            st.write(problem.visualize_solution(best_solution, plot=False))
+    #         problem = SagardotegiProblem()
+    #         st.text("Nodes (authors) are placed based on keyword similarity, while colors indicate the 19 tables.")
+    #         st.write(problem.visualize_solution(best_solution, plot=False))
 
-            st.header("Layout 🪑")
-            st.markdown(problem.solution_to_layout(best_solution, print_stdout=False))
+    #         st.header("Layout 🪑")
+    #         st.markdown(problem.solution_to_layout(best_solution, print_stdout=False))
 
 
 # === Right side: Full leaderboard ===
@@ -172,4 +172,3 @@ with col2:
             st.markdown(f"**#{i+1} – {entry['name']}** : {entry['score']:.2f}")
     else:
         st.info("No submissions yet.")
-
