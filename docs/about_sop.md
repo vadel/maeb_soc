@@ -19,7 +19,7 @@ Each table is assigned a consecutive block of $K$ authors in the permutation $\s
 Thus, the objective function value of a solution $\sigma$ is,
 
 $$
-f(\sigma) = \sum_{t=1}^{T} \sum_{i,j=(t-1)\cdot K}^{t\cdot K -1 } s_{\sigma_i \sigma_j}
+f(\sigma) = \sum_{t=1}^{T} \sum_{i=(t-1)\cdot K}^{t\cdot K -1 } \sum_{j=(t-1)\cdot K}^{t\cdot K -1 } s_{\sigma_i \sigma_j}
 $$
 
 The objective of the SOP is to find the solution that maximizes the objective function above. Namely,
@@ -28,10 +28,9 @@ $$
   \sigma^* = \underset{\sigma \in \mathbb{S}_N}{\text{arg max}}\ f(\sigma)
 $$
 
-
 ### Restrictions
 
-:orange-badge[⚠️ NOTE] $\ \forall i \in[0, N-1], \  s_{ii} = 0$. 
+:orange-badge[⚠️ NOTE] $\ \forall i \in[0, N-1], \  s_{ii} = 0$.
 
 :orange-badge[⚠️ NOTE] $\ \forall i,j \in[0, N-1], \ s_{ij} = 0$ if $j$ and $k$ have a paper in common.
 
@@ -40,7 +39,7 @@ $$
 ### The MAEB 2025 instance
 
 Although the SOP can be applied to any sagardotegi-congress combination, this challenge considers a single instance of MAEB 2025 authors. Specifically:
+
 - The size of the instance ($N$) is 133.
 - The number of tables ($T$) is 19.
 - The number of authors per table ($K$) is 7.
-
