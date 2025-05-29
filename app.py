@@ -149,7 +149,7 @@ with col1:
                 else:
                     st.warning("❌ Team not found in the leaderboard yet.")
 
-    #st.divider()
+    st.divider()
     admin_input = st.text_input("🔐 Admin passcode (optional)", type="password")
     if "admin" in st.secrets and admin_input == st.secrets["admin"]["passcode"]:
         with st.expander("⚙️ Admin Panel"):
